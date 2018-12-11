@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SelectionPage extends StatefulWidget {
   @override
@@ -6,6 +8,12 @@ class SelectionPage extends StatefulWidget {
 }
 
 class _SelectionPage extends State<SelectionPage> {
+
+  @override
+  void initState() {
+
+  }
+
   int totalSum = 0;
 
   Map<String, bool> values = {
@@ -16,6 +24,23 @@ class _SelectionPage extends State<SelectionPage> {
     'Dairy Products': false,
     'Insurance': false,
   };
+
+  Map<String, int> value1 = {
+    "DTH": 499,
+    "Dairy Products": 900,
+    "Electricity": 1589,
+    "Insurance": 2599,
+    "Internet": 759,
+    "Water": 399
+  };
+
+//  _fetchPost() async {
+//    final response = await http.get('https://pay-at-once-8f86e.firebaseio.com/users/9182163905.json');
+//    if (response.statusCode == 200) {
+//      value1 = json.decode(response.body);
+//    }
+//  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -30,14 +55,14 @@ class _SelectionPage extends State<SelectionPage> {
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.only(left: 18.0, right: 18.0),
-        children: values.keys.map((String key) {
+        children: value1.keys.map((String key) {
           return new CheckboxListTile(
             title: new Text(key),
             value: values[key],
             onChanged: (bool value) {
               setState(() {
                 values[key] = value;
-                totalSum = value? totalSum + 600 : totalSum - 600;
+                totalSum = value? totalSum + value1[key] : totalSum - value1[key];
                 });
             },
           );
@@ -105,22 +130,3 @@ class _SelectionPage extends State<SelectionPage> {
     );
   }
 }
-
-//CheckboxListTile(
-//title: Text("Internet"),
-//value: ,
-//onChanged: (bool value) {
-//setState(() {
-//totalSum = value ? (totalSum + 600) : (totalSum - 600);
-//});
-//},
-//),
-//CheckboxListTile(
-//title: Text("DTH"),
-//value: false,
-//onChanged: (bool value) {
-//setState(() {
-//totalSum = value ? (totalSum + 600) : (totalSum - 600);
-//});
-//},
-//)
